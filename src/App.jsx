@@ -2,9 +2,11 @@ import * as React from "react"
 import Header from "./components/Header/Header"
 import Instructions from "./components/Instructions/Instructions"
 import Chip from "./components/Chip/Chip"
+import NutritionalLabel from "./components/NutritionalLabel/NutritionalLabel"
 // IMPORT ANY NEEDED COMPONENTS HERE (above)
 import { createDataSet } from "./data/dataset"
 import "./App.css"
+import { useState } from "react"
 
 // don't move this!
 export const appInfo = {
@@ -24,6 +26,16 @@ export const appInfo = {
 const { data, categories, restaurants } = createDataSet()
 
 export function App() {
+  const [currCategory, setCurrCategory] = useState(null)
+  const [currRestaurant, setCurrRestaurant] = useState(null)
+  const [currMenuItem, setCurrMenuItem] = useState(null)
+
+
+
+  const currentMenuItems = data.filter((item) => {
+    return item.food_category === currCategory && item.restaurant === currRestaurant;
+  })
+  
 
 
   return (
@@ -37,7 +49,13 @@ export function App() {
           {categories.map((category, idx) => (
 
 
-            <Chip key={idx} label={category} isActive={false} />
+            <Chip 
+            key={idx} 
+            label={category} 
+            isActive={category === currCategory} 
+            onClick={() => {
+              setCurrCategory(category);
+            }} />
           ))}
 
         </div>
@@ -55,7 +73,13 @@ export function App() {
           <h2 className="title">Restaurants</h2>
           <div className="restaurants options">
             {restaurants.map((restaurant, idx) => (
-              <Chip key={idx} label={restaurant} isActive={false} />
+              <Chip 
+              key={idx} 
+              label={restaurant} 
+              isActive={restaurant === currRestaurant} 
+              onClick={() => {
+                setCurrRestaurant(restaurant);
+              }} />
             ))}
           </div>
         </div>
@@ -67,11 +91,23 @@ export function App() {
         <div className="MenuDisplay display">
           <div className="MenuItemButtons menu-items">
             <h2 className="title">Menu Items</h2>
-            {/* YOUR CODE HERE */}
+            {currentMenuItems.map((item, idx) => (
+            <Chip 
+            key={idx} 
+            label={item.item_name} 
+            isActive={item.item_name === currMenuItem} 
+            onClick={() => {
+              setCurrMenuItem(item.item_name);
+            }} />
+          )
+
+          )}
           </div>
 
           {/* NUTRITION FACTS */}
-          <div className="NutritionFacts nutrition-facts">{/* YOUR CODE HERE */}</div>
+          <div className="NutritionFacts nutrition-facts">
+            {"YOUR CODE HERE"}
+          </div>
         </div>
 
         <div className="data-sources">
