@@ -1,5 +1,8 @@
 import * as React from "react"
-// IMPORT ANY NEEDED COMPONENTS HERE
+import Header from "./components/Header/Header"
+import Instructions from "./components/Instructions/Instructions"
+import Chip from "./components/Chip/Chip"
+// IMPORT ANY NEEDED COMPONENTS HERE (above)
 import { createDataSet } from "./data/dataset"
 import "./App.css"
 
@@ -21,27 +24,44 @@ export const appInfo = {
 const { data, categories, restaurants } = createDataSet()
 
 export function App() {
+
+
   return (
     <main className="App">
       {/* CATEGORIES COLUMN */}
       <div className="CategoriesColumn col">
         <div className="categories options">
           <h2 className="title">Categories</h2>
+
           {/* YOUR CODE HERE */}
+          {categories.map((category, idx) => (
+
+
+            <Chip key={idx} label={category} isActive={false} />
+          ))}
+
         </div>
       </div>
 
       {/* MAIN COLUMN */}
       <div className="container">
         {/* HEADER GOES HERE */}
+        <Header title={appInfo.title} tagline={appInfo.tagline} description={appInfo.description}/>
+        {/* Setting "header=" means the props has one data set named header  */}
+        
 
         {/* RESTAURANTS ROW */}
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
-          <div className="restaurants options">{/* YOUR CODE HERE */}</div>
+          <div className="restaurants options">
+            {restaurants.map((restaurant, idx) => (
+              <Chip key={idx} label={restaurant} isActive={false} />
+            ))}
+          </div>
         </div>
 
         {/* INSTRUCTIONS GO HERE */}
+        <Instructions instructions={appInfo.instructions.start} />
 
         {/* MENU DISPLAY */}
         <div className="MenuDisplay display">
