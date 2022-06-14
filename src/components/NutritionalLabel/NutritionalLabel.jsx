@@ -2,6 +2,8 @@ import * as React from "react"
 import { nutritionFacts } from "../../constants"
 import "./NutritionalLabel.css"
 
+// should be working
+
 export function NutritionalLabel(props) {
 
   if (props.item)

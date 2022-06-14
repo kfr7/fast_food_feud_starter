@@ -2,18 +2,11 @@ import * as React from "react"
 import "./Chip.css"
 
 
-
-
-
-export function Chip({ label = "", isActive = false, onClick = () => {} }) {
-
-
-
-
+export function Chip({ label = "", isActive = false, onOpen = () => {}, onClose = () => {} }) {
   return (
-    <button className={isActive ? "chip active" : "chip"} onClick={onClick}>
+    <button className={isActive ? "chip active" : "chip"} onClick={onOpen}>
       <p className="label">{label}</p>
-      <span className="close" role="button">{`X`}</span>
+      <span className="close" role="button" onClick={onClose}>{`X`}</span>
     </button>
   )
 }

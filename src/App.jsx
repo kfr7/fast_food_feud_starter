@@ -25,18 +25,51 @@ export const appInfo = {
 // or this!
 const { data, categories, restaurants } = createDataSet()
 
+
+  {/* instructions: {
+    start: `Start by clicking on a food category on the left and a fast food joint from the list above. Afterwards, you'll be able to choose from a list of menu items and see their nutritional content.`,
+    onlyCategory: `Now select a fast food restaurant from the list above!`,
+    onlyRestaurant: `Now select a category from the list on the left!`,
+    noSelectedItem: `Almost there! Choose a menu item and you'll have the fast food facts right at your fingertips!`,
+    allSelected: `Great choice! Amazing what a little knowledge can do!`,
+  } */}
+
+function whichInstruction(catValue, resValue, itemValue)
+{
+  if (catValue===null && resValue===null)
+  {
+    return appInfo.instructions.start;
+  }
+  else if (catValue===null && resValue!==null)
+  {
+    return appInfo.instructions.onlyRestaurant;
+  }
+  else if (catValue!==null && resValue===null)
+  {
+    return appInfo.instructions.onlyCategory;
+  }
+  else if (catValue!==null && resValue!==null && itemValue===null)
+  {
+    return appInfo.instructions.noSelectedItem;
+  }
+  else if (catValue!==null && resValue!==null && itemValue!==null)
+  {
+    return appInfo.instructions.allSelected;
+  }
+
+
+}
+
 export function App() {
   const [currCategory, setCurrCategory] = useState(null)
   const [currRestaurant, setCurrRestaurant] = useState(null)
   const [currMenuItem, setCurrMenuItem] = useState(null)
 
 
-
   const currentMenuItems = data.filter((item) => {
     return item.food_category === currCategory && item.restaurant === currRestaurant;
   })
   
-
 
   return (
     <main className="App">
@@ -47,22 +80,23 @@ export function App() {
 
           {/* YOUR CODE HERE */}
           {categories.map((category, idx) => (
-
-
             <Chip 
             key={idx} 
             label={category} 
             isActive={category === currCategory} 
-            onClick={() => {
-              if (category === currCategory)
-              {
-                setCurrCategory(null)
-              }
-              else
+            onOpen={() => {
+              if (category !== currCategory)
               {
                 setCurrCategory(category);
+                setCurrMenuItem(null);
               }
-              setCurrMenuItem(null)
+            }}
+            onClose={() => {
+              if (category === currCategory)
+              {
+                setCurrCategory(null);
+                setCurrMenuItem(null);
+              }
             }} />
           ))}
 
@@ -72,8 +106,8 @@ export function App() {
       {/* MAIN COLUMN */}
       <div className="container">
         {/* HEADER GOES HERE */}
-        <Header title={appInfo.title} tagline={appInfo.tagline} description={appInfo.description}/>
         {/* Setting "header=" means the props has one data set named header  */}
+        <Header title={appInfo.title} tagline={appInfo.tagline} description={appInfo.description}/>
         
 
         {/* RESTAURANTS ROW */}
@@ -85,25 +119,27 @@ export function App() {
               key={idx} 
               label={restaurant} 
               isActive={restaurant === currRestaurant} 
-              onClick={() => {
-                if (restaurant === currRestaurant)
-                {
-                  setCurrRestaurant(null)
-                }
-                else
+              onOpen={() => {
+                if (restaurant !== currRestaurant)
                 {
                   setCurrRestaurant(restaurant);
+                  setCurrMenuItem(null);
                 }
-                setCurrMenuItem(null)
-                
-                
+              }}
+              onClose={() => {
+                if (restaurant === currRestaurant)
+                {
+                  setCurrRestaurant(null);
+                  setCurrMenuItem(null);
+                }
               }} />
             ))}
           </div>
         </div>
 
-        {/* INSTRUCTIONS GO HERE */}
-        <Instructions instructions={appInfo.instructions.start} />
+
+        {/* INSTRUCTIONS GO HERE */}  
+        <Instructions instructions={whichInstruction(currCategory, currRestaurant, currMenuItem)}/>
 
         {/* MENU DISPLAY */}
         <div className="MenuDisplay display">
@@ -114,16 +150,19 @@ export function App() {
             key={idx} 
             label={item.item_name} 
             isActive={item === currMenuItem} 
-            onClick={() => {
+            onOpen={() => {
+              if (item !== currMenuItem)
+              {
+                setCurrMenuItem(item);
+              }
+            }}
+            onClose={() => {
               if (item === currMenuItem)
-                {
-                  setCurrMenuItem(null)
-                }
-                else
-                {
-                  setCurrMenuItem(item);
-                }
-            }} />
+              {
+                setCurrMenuItem(null);
+              }
+            }}
+             />
           )
 
           )}
