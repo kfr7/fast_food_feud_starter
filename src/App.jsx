@@ -55,13 +55,14 @@ export function App() {
             isActive={category === currCategory} 
             onClick={() => {
               if (category === currCategory)
-                {
-                  setCurrCategory(null)
-                }
-                else
-                {
-                  setCurrCategory(category);
-                }
+              {
+                setCurrCategory(null)
+              }
+              else
+              {
+                setCurrCategory(category);
+              }
+              setCurrMenuItem(null)
             }} />
           ))}
 
@@ -93,6 +94,7 @@ export function App() {
                 {
                   setCurrRestaurant(restaurant);
                 }
+                setCurrMenuItem(null)
                 
                 
               }} />
@@ -111,15 +113,15 @@ export function App() {
             <Chip 
             key={idx} 
             label={item.item_name} 
-            isActive={item.item_name === currMenuItem} 
+            isActive={item === currMenuItem} 
             onClick={() => {
-              if (item.item_name === currMenuItem)
+              if (item === currMenuItem)
                 {
                   setCurrMenuItem(null)
                 }
                 else
                 {
-                  setCurrMenuItem(item.item_name);
+                  setCurrMenuItem(item);
                 }
             }} />
           )
@@ -129,7 +131,7 @@ export function App() {
 
           {/* NUTRITION FACTS */}
           <div className="NutritionFacts nutrition-facts">
-            {/* code hree */}
+            <NutritionalLabel item={currMenuItem}/>
           </div>
         </div>
 
