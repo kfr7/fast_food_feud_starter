@@ -54,7 +54,14 @@ export function App() {
             label={category} 
             isActive={category === currCategory} 
             onClick={() => {
-              setCurrCategory(category);
+              if (category === currCategory)
+                {
+                  setCurrCategory(null)
+                }
+                else
+                {
+                  setCurrCategory(category);
+                }
             }} />
           ))}
 
@@ -78,7 +85,16 @@ export function App() {
               label={restaurant} 
               isActive={restaurant === currRestaurant} 
               onClick={() => {
-                setCurrRestaurant(restaurant);
+                if (restaurant === currRestaurant)
+                {
+                  setCurrRestaurant(null)
+                }
+                else
+                {
+                  setCurrRestaurant(restaurant);
+                }
+                
+                
               }} />
             ))}
           </div>
@@ -97,7 +113,14 @@ export function App() {
             label={item.item_name} 
             isActive={item.item_name === currMenuItem} 
             onClick={() => {
-              setCurrMenuItem(item.item_name);
+              if (item.item_name === currMenuItem)
+                {
+                  setCurrMenuItem(null)
+                }
+                else
+                {
+                  setCurrMenuItem(item.item_name);
+                }
             }} />
           )
 
@@ -106,7 +129,7 @@ export function App() {
 
           {/* NUTRITION FACTS */}
           <div className="NutritionFacts nutrition-facts">
-            {"YOUR CODE HERE"}
+            {/* code hree */}
           </div>
         </div>
 
